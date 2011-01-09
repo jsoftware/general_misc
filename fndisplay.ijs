@@ -1,4 +1,6 @@
-NB. funcdisplay
+NB. general/misc/fndisplay.ijs
+NB. Display hooks, forks and other syntax elements
+NB. version: 1.0.0
 NB.
 NB. This script allows you to see how hooks, forks, and other
 NB. structural elements affect the order of processing verbs.
