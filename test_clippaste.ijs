@@ -18,7 +18,7 @@ test=: 3 : 0
 assert 0~:setcliptext t0
 assert t0-:getclip''
 assert t0-:getcliptext''
-assert -.t0-:getclipfiles''
+assert 0-:getclipfiles''
 assert 0~: setcliptext t1
 assert t1u-:clipunfmt getclip''
 assert t1u-:clipunfmt getcliptext''
