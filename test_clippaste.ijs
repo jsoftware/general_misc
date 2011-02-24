@@ -1,4 +1,4 @@
-NB. =========================================================
+NB. ========================================================
 NB. Test script for clippaste.ijs
 
 load '~addons/general/misc/clippaste.ijs'

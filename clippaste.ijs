@@ -1,4 +1,3 @@
-		
 NB. cd replacement for wd'clippaste'
 NB.
 NB. wd'clippaste 1' -> getcliptext''
