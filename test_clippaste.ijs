@@ -12,6 +12,7 @@ tm=:3# ,:tv
 tmu=:3 1$<"1 tm
 tem=:<"1 tm
 temu=:1 3$tem
+tfu=: ,<7 u: 68 58 92 82 92 230 178 146 230 156 137 229 149 143 233 161 140{a.
 tf4=:'c:\this';'c:\is';'c:\a';'c:\tst'
 
 test=: 3 : 0
@@ -35,6 +36,10 @@ assert 0~:setcliptext tem
 assert temu-:clipunfmt getclip''
 assert temu-:clipunfmt getcliptext''
 assert 0-:getclipfiles''
+assert 0~:setclipfiles tfu
+assert tfu-:getclipfiles''
+assert tfu-:getclip''
+assert 0=getcliptext''
 assert 0~:setclipfiles tf4
 assert tf4-:getclipfiles''
 assert tf4-:getclip''

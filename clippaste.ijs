@@ -17,23 +17,26 @@ getclip_z_=: getclip_wdclip_
 setcliptext_z_=: setcliptext_wdclip_
 setclipfiles_z_=: setclipfiles_wdclip_
 
-OpenClipboard=: >@{.@:('user32 OpenClipboard i i'&cd)
+OpenClipboard=: >@{.@:('user32 OpenClipboard i x'&cd)
 EmptyClipboard=: >@{.@:('user32 EmptyClipboard i'&cd)
-SetClipboardData=: >@{.@:('user32 SetClipboardData i i i'&cd)
+SetClipboardData=: >@{.@:('user32 SetClipboardData x i x'&cd)
 CloseClipboard=: >@{.@:('user32 CloseClipboard i'&cd)
 EnumClipboardFormats=: 0 1&{('user32 EnumClipboardFormats i i'&cd)
 CountClipboardFormats=: >@{.@:('user32 CountClipboardFormats i'&cd)
-GetClipboardData=: 0 1&{('user32 GetClipboardData i i'&cd)
+GetClipboardData=: 0 1&{('user32 GetClipboardData x i'&cd)
 GetClipboardFormatName=: >@{.@:('user32 GetClipboardFormatNameA i i *c i'&cd)
 GetClipboardSequenceNumber=: >@{.@:('user32 GetClipboardSequenceNumber i'&cd)
-GlobalLock=: >@{.@:('kernel32 GlobalLock i i'&cd)
-GlobalUnlock=: >@{.@:('kernel32 GlobalUnlock i i'&cd)
-GlobalAlloc=: >@{.@:('kernel32 GlobalAlloc i i i'&cd)
-GlobalFree=: >@{.@:('kernel32 GlobalFree i i'&cd)
-GlobalReAlloc=: >@{.@:('kernel32 GlobalReAlloc i i i i'&cd)
+GlobalLock=: >@{.@:('kernel32 GlobalLock x x'&cd)
+GlobalUnlock=: >@{.@:('kernel32 GlobalUnlock i x'&cd)
+GlobalAlloc=: >@{.@:('kernel32 GlobalAlloc x i i'&cd)
+GlobalFree=: >@{.@:('kernel32 GlobalFree x x'&cd)
+GlobalReAlloc=: >@{.@:('kernel32 GlobalReAlloc x x i i'&cd)
 
 CF_HDROP=: 15
 CF_TEXT=: 2-1
+CF_OEMTEXT=: 7
+CF_UNICODETEXT=: 13
+
 GHND=: dfh'0042'
 GMEM_MODIFY=: dfh'0080'
 GMEM_MOVEABLE=: 2
@@ -116,7 +119,7 @@ r=.GlobalLock drop
 0 1 memwic r,12
 i=.20
 for_s. y do.
- s=.(,(,.>s),.NULL),UNULL
+ s=.(a.{~,|."1]256 256#:3 u: >s),UNULL
  s memw r,i,(#s),2
  i=.i+#s
 end.
@@ -228,8 +231,10 @@ NB. =========================================================
 NB.*getcliptext v display text
 NB. form: getcliptext ''
 getcliptext=: 3 : 0
+CF_TEXT getcliptext y
+:
 if. 0=OpenClipboard 0 do. 0 return. end.
-'m t'=.GetClipboardData CF_TEXT
+'m t'=.GetClipboardData x
 if. m=0 do.
  CloseClipboard ''
  0
@@ -238,7 +243,11 @@ end.
 r=.''
 p=.GlobalLock m
 if. p do.
- r=.memr p,0,_1,2
+ if. x=CF_UNICODETEXT do.
+  r=.>1{unicopy p,0
+ else.
+  r=.memr p,0,_1,2
+ end.
  GlobalUnlock m
 end.
 CloseClipboard ''
