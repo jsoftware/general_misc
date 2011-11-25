@@ -62,6 +62,7 @@ GetDiskFreeSpaceEx=: >@{.@('kernel32 GetDiskFreeSpaceExW i *w * * *'&(15!:0))
 GetDiskFreeSpace=: >@{.@('kernel32 GetDiskFreeSpaceW i *w *i *i *i *i'&(15!:0))
 GetLogicalDrives=: >@{.@('kernel32 GetLogicalDrives i'&(15!:0))
 
+4!:55 <'t'
 t=: 2&=&(3!:0)
 
 NB. =========================================================
