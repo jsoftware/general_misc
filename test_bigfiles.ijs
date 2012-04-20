@@ -14,13 +14,13 @@ smoutput '   ',y
 smoutput ". y
 )
 
-F=: jpath '~temp\t1.dat'
+F=: jpath '~temp/t1.dat'
 'abc ' fwrite F
 foo '''hello'' bappend_jbf_ F'
 foo 'fread F'
-foo 'H=: bopen_jbf_ ''c:\jmisc\extern\wagon\w228.ijs'''
+foo 'H=: bopen_jbf_ ''c:/jmisc/extern/wagon/w228.ijs'''
 foo 'bixread_jbf_ H;0 3 3'
 foo 'bclose_jbf_ H'
 foo 'bdiskfreespace_jbf_ ''d:'''
 foo 'bdiskfreespaceex_jbf_ ''d:'''
-foo 'bfsize_jbf_ ''jpath '~bin\j.exe'''
+foo 'bfsize_jbf_ ''jpath '~bin/j.exe'''
