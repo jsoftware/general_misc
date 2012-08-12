@@ -11,6 +11,8 @@ NB. check for side effect of inverse
 NB. Label Grid window in case multiple scripts
 NB. handle multiple scripts, with chaining of globals?
 NB. Run on all system scripts
+NB. do better with gerunds
+NB. do better with checking safety of explicit defns & 1-line modifiers
 NB. need to keep track of which source words the stacked items come from
 
 cocurrent 'lint'
@@ -28,7 +30,7 @@ NB.-  undefined names, including names not defined in all paths
 NB.-  verbs used with invalid valences
 NB.-  non-noun results at the end of condition blocks and verbs
 NB.-  syntax errors
-NB.-  sentences with no effect of execution (eg verb verb)
+NB.-  sentences with no effect on execution (eg verb verb)
 NB.-
 NB.- lint first loads the script, then extracts the explicit definitions and parses them one by one.  
 NB.- Each definition is executed in the locale it is loaded into.  Each line of the definition
@@ -878,7 +880,8 @@ NB. for verb/adverb/noun, create linear form; if multiple lines, it's unsafe (ex
     NB. sections are in each :0: 1 (monad only), 2 (dyad only), 3 (both)
     NB. Now figure out, for each definition, whether it contains a reference to x or y.  Set a flag (4) if so,
     NB. to indicate that if this is used in a modifier, it will create an explicit verb
-    modexplicit =. (2&((;:LF,')')&-:\)   (4 * (;:'x y')&(+./@:e.));._2    }:) ;: LF takeafter l
+    NB. Must remove comments from the definition, in case they were not suppressed
+    modexplicit =. (2&((;:LF,')')&-:\)   (4 * (;:'x y')&(+./@:e.));._2    }:) ;: ; (<@(,&LF)@(}:^:('NB.' -: 3 {. >@{:)&.;:));._2 LF ,~ LF takeafter l
     NB. Replace each :0 with : #sections.  That is our private valence tag
     NB. Make the first line (only) the unparsed value.  When it is parsed, we will
     NB. execute the :1 :2 :3 to set the missing-valence bits.  The result of that parse will be
@@ -1089,7 +1092,9 @@ while. s_index < #inplines do.   NB. for_s. fails under J6.02; break problem
       NB. If the stack contains an executable combination, execute it
       NB. If part of the execution has unknown value, produce an unknown result, of type 'noun' for verb executions,
       NB. and 'verb' for modifier executions
+      NB.?lintmsgsoff
       if. debuglevel > 0 do. qprintf 'queue stack ' end.
+      NB.?lintmsgson
       select.
       NB.?lintonly stack =. (verb,verb,verb,noun);"0<''
       if. (#PTpatterns) > pline =. 1 1 1 1 i.~ * PTpatterns bwand"1 ,>4 1{.stack do.
@@ -1447,14 +1452,18 @@ while. s_index < #inplines do.   NB. for_s. fails under J6.02; break problem
     emptyblock =. 0
   end.  NB. sentence was empty
   s_index =. >: s_index
-if. debuglevel > 0 do. qprintf 'Aftersentence?defnames ' end.
+  NB.?lintmsgsoff
+  if. debuglevel > 0 do. qprintf 'Aftersentence?defnames ' end.
+  NB.?lintmsgson
 end.
 NB. rewrite the locale in the defined names.  Also write the nonnoun/nugatory info, which indicates when the last line of the block
 NB. is a non-noun or is nugatory.  We keep track of which of these continue to be active through processing.  If a nonnoun is
 NB. active at the end of a T-block or at the final return, that's an error.  If a nugatory makes it to a T-block or the final return, that's NOT
 NB. an error; otherwise it is an error.  We save the status of the last sentence of this block
 defnames =. defnames addnames ('$LOC';'$NNU') ,. (<$0) ,. loc ;< ((-. validtblock) , nugatory) <@#"0 (<:s_index) { inplinenos
+NB.?lintmsgsoff
 if. debuglevel > 0 do. qprintf 'Endofblock?defnames ' end.
+NB.?lintmsgson
 
 defnames;<errors
 )
