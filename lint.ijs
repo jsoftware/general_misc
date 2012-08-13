@@ -32,7 +32,7 @@ NB.-  non-noun results at the end of condition blocks and verbs
 NB.-  syntax errors
 NB.-  sentences with no effect on execution (eg verb verb)
 NB.-
-NB.- lint first loads the script, then extracts the explicit definitions and parses them one by one.  
+NB.- lint first loads the script, then extracts the explicit definitions and parses them one by one.
 NB.- Each definition is executed in the locale it is loaded into.  Each line of the definition
 NB.- is executed in "safe mode" where verbs that have side effects, such as file operations, are
 NB.- not performed.  Global variables are used by the execution, but all assignments are
@@ -123,7 +123,7 @@ if. 0 = #emsgs do.  NB. If no errors, continue checking
       smoutput 'This means that the indicated line number of the indicated function is an invalid control.'
       smoutput 'If the function is bivalent, you need to check both valences'
       1 return.
-    elseif. 
+    elseif.
     lineno =. _100000
     if. LF = {: sysstg do.
        lineno =. _100000 ([: {. -@". , [) }. }: '\[.*?\]' rxfirst ; {: <;._1 sysstg
@@ -153,7 +153,7 @@ if. 0 = #emsgs do.  NB. If no errors, continue checking
     NB. Bring in the lines that are lint-only lines.  Remove the header, leaving the space.  We don't load
     NB. the lint-only lines, because we want to be able to use lint as a replacement for load
     lines =. ((] {~ [: <@<@< (i. 12) + [)^:(<#)~&.>    'NB.?lintonly '&(i.&1@:E.)@>) lines
- 
+
     NB. Collect name;startline#;<lines for all the explicit definitions.  There may be surplus )s here.
     expdefs =. (,.    lines <@(];.0~ ,.)"_ 1 eendx (] ([ ,. -~) I. { [) [: >: 1&{::"1) expnames
 
@@ -191,7 +191,7 @@ else.
   smoutput 'No errors found'
 end.
 emsgs
-) 
+)
 NB.*exppatt n pattern to match the start of an explicit definition
 NB.-descrip: regex pattern to detect start-of-explicit-definition
 NB.-note: modify if you have novel ways of starting an explicit definition
@@ -269,7 +269,7 @@ if. #nl =. ; (stline + i. # lines) (;"0  (<@(;:^:_1);.1~ (+. |.!.1)@iscw))&.> li
 NB.?lintsaveglobals
 else.
   NB. The code above fails if there are no lines; but it turns out (J6.02 bug) that an empty
-  NB. explicit definition gives a domain error anyway; so we report the case as an error 
+  NB. explicit definition gives a domain error anyway; so we report the case as an error
   1
 end.
 )
@@ -309,7 +309,7 @@ else.
     emsgs =. emsgs , nugatories ;"0 <'Sentence has no effect'
     NB. If the explicit definition is a verb, make sure it returns a noun
     if. isverb do.
-      emsgs =. emsgs ,~ (0{::r) ;"0 <'non-noun value may become result of verb' 
+      emsgs =. emsgs ,~ (0{::r) ;"0 <'non-noun value may become result of verb'
     end.
   end.
   NB.?lintsaveglobals
@@ -573,7 +573,7 @@ NB. The break info contains all the other ways to get to end-of-loop; include th
 
 NB. for[_...] do end
 NB. like while, except that in the for_x form we define local x and x_index as nouns, and delete them
-NB. after the end statement 
+NB. after the end statement
 cparse_control_for =: 3 : 0
 'ivars bvars rvars' =. y
 NB. Save the name if any
@@ -748,7 +748,7 @@ emsgs =. 0 2$a:
 NB. The control word ends with a space.  dispatch on it
 select. ' ' taketo cw
 case. 'NB.?lintsaveglobals' do.
-  NB. make all global variables defined on the main line available to later verbs 
+  NB. make all global variables defined on the main line available to later verbs
   addpersistentnames 0 { ibr
 case. 'NB.?lintmsgsoff' do.
   NB. disable message reporting.  We have to save the requests for later disabling, because
@@ -765,12 +765,12 @@ case. 'NB.?lintdebug2' do.
 case. do.
   emsgs =. emsgs , lineno ; 'Unrecognized lint directive'
 end.
-NB. Return with line status unchanged 
+NB. Return with line status unchanged
 ibr , <emsgs
 )
 
 NB. ********************** from here on is devoted to parsing J sentences ***************
-NB. 
+NB.
 NB. Parsing stuff, copied from trace.ijs
 NB. sideeff means that that valence of
 NB. the verb must not be executed because of a side-effect (and therefore a sentence it is in should not
@@ -804,7 +804,7 @@ PTactions =:  2{"1 x  NB. actions
 
 bwand =: 17 b.    NB. bitwise and
 bwor =: 23 b.    NB. bitwise or
-bwlsl =: 33 b.  NB. logical left shift 
+bwlsl =: 33 b.  NB. logical left shift
 
 prespace=: ,~ e.&'.:'@{. $ ' '"_
                       NB. preface a space to a word beginning with . or :
@@ -861,7 +861,7 @@ fcase. 3 do.
     cocurrent 'lint'
     (sideeff+verb);'' return.
   end.
-  y =. <'x' 
+  y =. <'x'
 case. do.
 NB. for verb/adverb/noun, create linear form; if multiple lines, it's unsafe (explicit defn)
   l =. 5!:5 y  NB. linear form
@@ -930,7 +930,7 @@ NB. x is current locale;table of defined names;type;value
 NB. y is single boxed name
 NB. Result is type;value of name, or scalar empty box if undefined name
 NB. If the name has no locale, we look for it in the defined-names table; if not found, we append the current locale
-NB. Then we go through the path for the locale of the name: until found, we look first in the table, then in the system 
+NB. Then we go through the path for the locale of the name: until found, we look first in the table, then in the system
 lookupname =: 4 : 0"1 0
 'loc defnames' =. x
 nmx =. ({."1 defnames)&i.
@@ -1080,7 +1080,7 @@ while. s_index < #inplines do.   NB. for_s. fails under J6.02; break problem
 
     NB. Init where we were when we found the last valid production.  This is the end of the queue when
     NB. we matched a rule
-    errstartpoint =. _2 {. }. queue 
+    errstartpoint =. _2 {. }. queue
 
     NB. initialize the 'duh' indicator.  Every sentence must either contain an assignment, or execute
     NB.  some unpredictable verb, unless it is the last sentence of the block
@@ -1126,7 +1126,7 @@ while. s_index < #inplines do.   NB. for_s. fails under J6.02; break problem
           catch.
             res =. ''  NB. Error, unknown noun result
             NB. reconstruct the linear form of the failing fragment
-            errors =. errors , (s_index { inplinenos) ; ('Execution error after: ' , > {:!.(<'start of line') }.queue),postmortem exeblock  
+            errors =. errors , (s_index { inplinenos) ; ('Execution error after: ' , > {:!.(<'start of line') }.queue),postmortem exeblock
           end.
         end.
         if. (0 { exetypes) bwand setlocale do.
@@ -1160,7 +1160,7 @@ while. s_index < #inplines do.   NB. for_s. fails under J6.02; break problem
             res =. 5!:1 <'res'
           catch.
             res =. ''  NB. Error, unknown noun result
-            errors =. errors , (s_index { inplinenos) ; ('Execution error after: ' , > {:!.(<'start of line') }.queue),postmortem exeblock  
+            errors =. errors , (s_index { inplinenos) ; ('Execution error after: ' , > {:!.(<'start of line') }.queue),postmortem exeblock
           end.
         end.
         if. (1 { exetypes) bwand setlocale do.
@@ -1317,7 +1317,7 @@ while. s_index < #inplines do.   NB. for_s. fails under J6.02; break problem
         end.
 
         NB. If the assignment is global, append the current locale to all names that don't have a locale
-        if. '=:' -: ((<1 1) {:: stack) do. nameloc =. ,&('_',loc,'_')^:('_'~:{:)&.> nameloc end. 
+        if. '=:' -: ((<1 1) {:: stack) do. nameloc =. ,&('_',loc,'_')^:('_'~:{:)&.> nameloc end.
 
         NB. If there are multiple names, verify that the right side is a noun
         if. (1 < #nameloc) *. noun ~: ((<2 0) {:: stack) do.
@@ -1357,7 +1357,7 @@ while. s_index < #inplines do.   NB. for_s. fails under J6.02; break problem
           else. NB. value not defined
             nameloc =. nameloc ,"0 1 (arassign { noun,verb) ; ''
           end.
-        end. 
+        end.
 
         NB. Perform the assignments, prepending the values to the table.  Then remove duplicates from the table
         NB. If a name is assigned twice in one line, keep the last one
@@ -1371,7 +1371,7 @@ while. s_index < #inplines do.   NB. for_s. fails under J6.02; break problem
 
       case. 8 do.  NB. ( x )
         stack =. (<<<0 2) { stack
- 
+
       NB. If the stack did not have an executable combination, bring the next word onto the stack.
       case. do. NB. no executable fragment
         if. 0 = #queue do. pline =. _1 break. end.  NB. This is how we end the sentence, with pline set as a flag
@@ -1444,7 +1444,7 @@ while. s_index < #inplines do.   NB. for_s. fails under J6.02; break problem
     elseif. pline = _1 do.
       errors =. errors , (s_index { inplinenos) ; 'Syntax error ending with: ' , ;:^:_1 errstartpoint
     end.
-  
+
     NB. Verify that the sentence did something unpredictable, unless it is last
     if. nugatory *. s_index < <:#inplines do.
       errors =. errors , (s_index { inplinenos) ; 'Sentence has no effect'
