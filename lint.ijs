@@ -1916,5 +1916,4 @@ NB. If operand unknown, produce 'unknown noun' result
 end.
 )
 
-
 lint_z_ =: lint_lint_
