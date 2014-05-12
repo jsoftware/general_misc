@@ -24,7 +24,7 @@ NB. entry for the 3!: foreign conjunction.
 
 require 'dll'
 
-libj=: IFUNIX{::'j.dll';('Mac'-:UNAME){::'libj.so';'libj.dylib'
+libj=: IFUNIX{::'j.dll';('Darwin'-:UNAME){::'libj.so';'libj.dylib'
 SZI=: IF64{4 8
 
 NB. =========================================================
