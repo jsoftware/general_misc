@@ -14,6 +14,7 @@ NB.
 NB. Notes:
 NB.  - the default is only available in JQt
 NB.  - this will not work in a script
+NB.  - in Windows console a newline is added after the prompt
 prompt=: 3 : 0
 '' prompt y
 :
@@ -23,7 +24,7 @@ if. IFQT do.
   len=. #y
   (len * y -: len {. inp) }. inp
 else.
-  y 1!:2 [ 4
+  y 1!:2 IFWIN { 4 2
   1!:1 ] 1
 end.
 )
