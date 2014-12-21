@@ -24,7 +24,7 @@ if. IFQT do.
   len=. #y
   (len * y -: len {. inp) }. inp
 else.
-  y 1!:2 IFWIN { 4 2
+  y 1!:2 (IFWIN+.IFJHS+.IFIOS) { 4 2
   1!:1 ] 1
 end.
 )
