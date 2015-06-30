@@ -19,9 +19,9 @@ prompt=: 3 : 0
 '' prompt y
 :
 if. IFQT do.
-  wd 'sm prompt ',y,x
+  wd 'sm prompt *',y,x
   inp=. 1!:1 ] 1
-  len=. #y
+  len=. #y=. dlb y
   (len * y -: len {. inp) }. inp
 else.
   y 1!:2 (IFWIN+.IFJHS+.IFIOS) { 4 2
