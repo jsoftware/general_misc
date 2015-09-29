@@ -1,5 +1,5 @@
 NB. Title             Essays/Inverted Table - J Wiki
-NB. Current URL       http://www.jsoftware.com/jwiki/Essays/Inverted%20Table
+NB. Current URL       http://code.jsoftware.com/wiki/Essays/Inverted%20Table
 NB.
 NB. Collected Definitions
 
