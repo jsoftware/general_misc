@@ -24,7 +24,7 @@ NB.     sys_drive_free_space=.getdrivespace ''                  return matrix of
 NB.     are_same=.f1 bfcomp f2                                  compare 2 files
 NB.
 NB. Contributed by David Mitchell in J Forum posting April 2003.
-
+ 
 require 'dll'
 
 coclass 'jbf'
