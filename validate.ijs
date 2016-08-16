@@ -30,7 +30,9 @@ NB.* isnumeric    v  data is numeric
 NB.* isrational   v  data is rational
 NB.* isreal       v  data is all real
 NB.* isscalar     v  data is a scalar
-NB.* isunicode    v  data is unicode
+NB.* isunicode    v  data is unicode  (deprecated)
+NB.* iswchar      v  data is wchar    (new)
+NB.* isliteral4   v  data is literal4 (new) 
 NB.* isunique     v  data has no duplicates
 NB.* isutf8       v  text is valid UTF-8
 NB.* isvector     v  data is a vector
@@ -51,6 +53,8 @@ isrational=: isinteger < 3!:0 = 128"_
 isreal=: (-: +) :: 0:
 iscomplex=: -. @ (-: +) :: 0:
 isunicode=: 131072"_ = 3!:0
+iswchar=: 131072"_ = 3!:0
+isliteral4=: 262144"_ = 3!:0
 isunique=: -: ~.
 
 isscalar=: 0: = #@$
