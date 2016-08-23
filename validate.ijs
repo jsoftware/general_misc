@@ -30,11 +30,12 @@ NB.* isnumeric    v  data is numeric
 NB.* isrational   v  data is rational
 NB.* isreal       v  data is all real
 NB.* isscalar     v  data is a scalar
-NB.* isunicode    v  data is unicode  (deprecated)
-NB.* iswchar      v  data is wchar    (new)
-NB.* isliteral4   v  data is literal4 (new) 
+NB.* isunicode    v  data is unicode (literal2 or literal4)
+NB.* isliteral2   v  data is literal2
+NB.* isliteral4   v  data is literal4
 NB.* isunique     v  data has no duplicates
 NB.* isutf8       v  text is valid UTF-8
+NB.* isutf16      v  text is valid UTF-16
 NB.* isvector     v  data is a vector
 
 cocurrent 'z'
@@ -52,8 +53,8 @@ isnumeric=: 3!:0 e. 1 4 8 16 64 128"_
 isrational=: isinteger < 3!:0 = 128"_
 isreal=: (-: +) :: 0:
 iscomplex=: -. @ (-: +) :: 0:
-isunicode=: 131072"_ = 3!:0
-iswchar=: 131072"_ = 3!:0
+isunicode=: 131072 262144"_ e.~ 3!:0
+isliteral2=: 131072"_ = 3!:0
 isliteral4=: 262144"_ = 3!:0
 isunique=: -: ~.
 
@@ -70,3 +71,4 @@ b*d<:day
 )
 
 isutf8=: (2=3!:0) *. 1:@(7&u:) :: 0:
+isutf16=: (131072=3!:0) *. 1:@(8&u:) :: 0:
