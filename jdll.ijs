@@ -22,8 +22,6 @@ NB.
 NB. see examples at the end of the script, and the dictionary
 NB. entry for the 3!: foreign conjunction.
 
-require 'dll'
-
 libj=: IFUNIX{::'j.dll';('Darwin'-:UNAME){::'libj.so';'libj.dylib'
 SZI=: IF64{4 8
 
@@ -122,7 +120,7 @@ NB. form: 'name' jset data
 NB. assign value to name
 jset=: 4 : 0
 rep=. 3!:1 y
-assert. (225{a.) = {.rep NB. intel32
+assert. (a.{~225+2*IF64) = {.rep NB. intel32/64
 type=. 3!:0 y
 if. type > 16 do.
   'boxed or other types > 16 not supported by jset' return.
@@ -143,23 +141,13 @@ empty''
 )
 
 NB. =========================================================
-NB. check DLL will work
+NB. initialize DLL will work
 3 : 0 ''
-
 pJ=: jinit''
 )
 
 NB. =========================================================
-dllexamples=: 0 : 0
-jdo 'ABC=: i.2 3 4'
-jget 'ABC'
-'ABC' jset i.2 3 4
-jcmd 'i.2 3 4'
-jcmd '<"0 i.2 3 4'
-jclear''
-)
-
-NB. =========================================================
+NB. test examples
 dlltest=: 3 : 0
 test '3 3 3 $''abcdef'''
 test 'i.3 4'
@@ -184,4 +172,37 @@ smoutput y,~ ' : ',~ ": (".y)-:jget 'ABC'
 ''
 )
 
-NB. dlltest''
+NB. =========================================================
+dlltest2=: 3 : 0
+t=. i.2 3 4
+'ABC' jset t
+b=. t -: jget 'ABC'
+b=. b,t -: jcmd 'i.2 3 4'
+b=. b,(<"0 t) -: jcmd '<"0 i.2 3 4'
+smoutput b
+)
+
+NB. =========================================================
+NB. examples from wiki
+wikitest=: 3 : 0
+p=. (libj,' JInit x') cd ''
+
+cmd=. '''abc'' 1!:2 <''t1.txt'''
+(libj,' JDo i x *c') cd p,<cmd
+fread 't1.txt'
+
+(libj,' JDo i x *c') cd p,<'AA=: o.i.2 3 5'
+[r=. (libj,' JGetM i x *c *x *x *x *x') cd p,'AA';4#<,0
+memr (5 pick r),0 3 4
+
+jdo 'ABC=: i.3 4'
+jget 'ABC'
+jcmd 'q: 123456'
+)
+
+NB. =========================================================
+
+Note''
+dlltest''
+dlltest2''
+)
