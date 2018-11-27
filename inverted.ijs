@@ -25,6 +25,7 @@ tkey      =: 1 : '<@tindexof~@[ u/.&.> ]'
 tgrade    =: > @ ((] /: {~)&.>/) @ (}: , /:&.>@{:)
 tgradedown=: > @ ((] \: {~)&.>/) @ (}: , \:&.>@{:)
 tsort     =: <@tgrade {&.> ]
+tselfie   =: |:@:(i.~&>)
 
 NB. alternatives
 tmemberof1=: tindexof~ < ttally@]
