@@ -15,8 +15,11 @@ tassert=: 3 : 0
 )
 
 ttally    =: #@>@{.
+tappend   =: [ ,&.> ]
+tcopy     =: <@[ #&.> ]
 tfrom     =: <@[ {&.> ]
 tindexof  =: i.&>~@[ i.&|: i.&>
+tindexoflast  =: i:&>~@[ i:&|: i:&>
 tmemberof =: i.&>~ e.&|: i.&>~@]
 tless     =: <@:-.@tmemberof #&.> [
 tnubsieve =: ~:@|:@:(i.&>)~
