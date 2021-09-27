@@ -3,6 +3,7 @@ NB. Execution trace utilities
 NB. version: 1.0.0
 
 cocurrent 'jtrace'
+LOCALE=: <'base'
 
 Note 0
 The main functions are "trace" and "paren".
@@ -51,7 +52,7 @@ x=. x, ((edge+avn), verb,       verb, noun     ); 0 0 1 1; '1 Monad'
 x=. x, ((edge+avn), noun,       verb, noun     ); 0 1 1 1; '2 Dyad'
 x=. x, ((edge+avn), (verb+noun),adv,  any      ); 0 1 1 0; '3 Adverb'
 x=. x, ((edge+avn), (verb+noun),conj, verb+noun); 0 1 1 1; '4 Conj'
-x=. x, ((edge+avn), (verb+noun),verb, verb     ); 0 1 1 1; '5 Trident'
+x=. x, (edge,       cavn,       cavn, cavn     ); 0 1 1 1; '5 Trident'
 x=. x, (edge,       cavn,       cavn, any      ); 0 1 1 0; '6 Bident'
 x=. x, ((name+noun),asgn,       cavn, any      ); 1 1 1 0; '7 Is'
 x=. x, (lpar,       cavn,       rpar, any      ); 1 1 1 0; '8 Paren'
@@ -74,7 +75,7 @@ class=: 3 : 0         NB. the class of the word represented by string y
  if. 10>i=. (;:'=: =. ( ) m n u v x y')i.<y do.
   i{asgn,asgn,lpar,rpar,6#name return.
  end.
- (4!:0 <'x' [ ".'x=. ',y){noun,adv,conj,verb
+ (nc__LOCALE <'x' [ do__LOCALE 'x=. ',y){noun,adv,conj,verb
 )
 
 show=: 3 : 0
@@ -85,14 +86,14 @@ show=: 3 : 0
  y
 )
 
-encall1=: '('"_ , ] , ' call"'"_ , ] , ')'"_
-encall =: encall1&.>^:(isname&> *. 3: = 4!:0)"0
-                      NB. replace function names f in words y by (f call"f)
+encall1=: '('"_ , ] , ' call_jtrace_"'"_ , ] , ')'"_
+encall =: encall1&.>^:(isname&> *. 3: = nc__LOCALE)"0
+                      NB. replace function names f in words y by (f call_jtrace_"f)
 
 call=: 1 : 0          NB. for tracing function calls
- (5!:5 <u=. 5!:5 <'u') call1    <y
+ (5!:5 <u=. 5!:5 <'u') call1_jtrace_    <y
  :
- (5!:5 <u=. 5!:5 <'u') call1 x;<y
+ (5!:5 <u=. 5!:5 <'u') call1_jtrace_ x;<y
 )
 
 call1=: 4 : 0         NB. call function x on argument(s) y
@@ -102,7 +103,7 @@ call1=: 4 : 0         NB. call function x on argument(s) y
  if. 2=#y do. show 5!:5 <'t_x' end.
  show x
  show 5!:5 <'t_y'
- ". 't_z=. ',((2=#y)#'t_x '),'(',(encall&.;: x),') t_y'
+ do__LOCALE  't_z=. ',((2=#y)#'t_x '),'(',(encall&.;: x),') t_y'
  show 5!:5 <'t_z'
  show 30$'='
  indent=: <:indent
@@ -117,8 +118,8 @@ executet=: 4 : 0      NB. execute rule x for stack y for "trace"
  if. 7 =x do. t_x=. (<'=:') 1}t_x end.
  if. 2>:x do. t_x=. (encall&.;:&.>_2{t_x) _2}t_x end.
  if. 6>:x do. t_x=. (<'( '),&.>t_x,&.><' )' end.
- ". 't_z=. ', ; t_x
- t_c=. (4!:0 <'t_z'){noun,adv,conj,verb
+ do__LOCALE  't_z=. ', ; t_x
+ t_c=. (nc__LOCALE <'t_z'){noun,adv,conj,verb
  if. noun=t_c do.
   t_z=. 5!:5 <'t_z' [ show t_z
  else.
@@ -136,8 +137,8 @@ executep=: 4 : 0      NB. execute rule x for stack y for "paren"
   fcase. 7 do.
    t_x=. (<'=:') 1}t_x
   case. 3;4;6 do.
-   ". 't_z=. ',t_x=. '(',(;:^:_1 t_x),')'
-   t_c=. (4!:0 <'t_z'){noun,adv,conj,verb
+   do__LOCALE  't_z=. ',t_x=. '(',(;:^:_1 t_x),')'
+   t_c=. (nc__LOCALE <'t_z'){noun,adv,conj,verb
   case. 8 do.
    t_c=. >1{t_b#,4 1{.y [ t_x=. >1{t_x
  end.
@@ -150,7 +151,7 @@ movet=: 3 : 0         NB. move from queue to stack for "trace"
  if. (name~:t_c)+.asgn=0 0{::stack do.
   stack=. ({:queue),stack
  else.
-  t_c=. (4!:0 <t_x){noun,adv,conj,verb
+  t_c=. (nc__LOCALE <t_x){noun,adv,conj,verb
   if. t_c~:verb do. t_x=. 5!:5 <t_x end.
   stack=. (t_c;t_x),stack
  end.
@@ -163,7 +164,7 @@ movep=: 3 : 0         NB. move from queue to stack for "paren"
  if. (name~:t_c)+.asgn=0 0{::stack do.
   stack=. ({:queue),stack
  else.
-  t_c=. (4!:0 <t_x){noun,adv,conj,verb
+  t_c=. (nc__LOCALE <t_x){noun,adv,conj,verb
   stack=. (t_c;t_x),stack
  end.
  (}:queue);<stack
@@ -206,7 +207,7 @@ parse=: 3 : 0
 trace=: 3 : 0         NB. trace sentence y to depth x (_ default)
  _ trace y
  :
- ". >(<1 1){parse 'trace';x;y
+ do__LOCALE  >(<1 1){parse 'trace';x;y
 )
 
 paren=: 3 : 0         NB. fully parenthesize sentence y
