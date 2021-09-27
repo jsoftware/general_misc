@@ -26,7 +26,7 @@ fndef.ijs Using a more literate style
 
 VERSION=: '2.5.3'
 
-RELEASE=: ''
+RELEASE=: 'j903'
 
 FOLDER=: 'general/misc'
 
