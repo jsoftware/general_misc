@@ -74,7 +74,7 @@ class=: 3 : 0         NB. the class of the word represented by string y
  if. 10>i=. (;:'=: =. ( ) m n u v x y')i.<y do.
   i{asgn,asgn,lpar,rpar,6#name return.
  end.
- (4!:0 <'x' [ do__userlocale'x=. ',y){noun,adv,conj,verb
+ (nc__userlocale <'x' [ do__userlocale'x=. ',y){noun,adv,conj,verb
 )
 
 show=: 3 : 0
@@ -86,7 +86,7 @@ show=: 3 : 0
 )
 
 encall1=: '('"_ , ] , ' call_jtrace_"'"_ , ] , ')'"_
-encall =: encall1&.>^:(isname&> *. 3: = 4!:0)"0
+encall =: encall1&.>^:(isname&> *. 3: = nc__userlocale)"0
                       NB. replace function names f in words y by (f call"f)
 
 NB. executes in userlocale
@@ -120,7 +120,7 @@ executet=: 4 : 0      NB. execute rule x for stack y for "trace"
  if. 2>:x do. t_x=. (encall&.;:&.>_2{t_x) _2}t_x end.
  if. 6>:x do. t_x=. (<'( '),&.>t_x,&.><' )' end.
  do__userlocale 't_z=. ', ; t_x
- t_c=. (4!:0 <'t_z'){noun,adv,conj,verb
+ t_c=. (nc__userlocale <'t_z'){noun,adv,conj,verb
  if. noun=t_c do.
   t_z=. 5!:5 <'t_z' [ show t_z
  else.
@@ -139,7 +139,7 @@ executep=: 4 : 0      NB. execute rule x for stack y for "paren"
    t_x=. (<'=:') 1}t_x
   case. 3;4;6 do.
    do__userlocale 't_z=. ',t_x=. '(',(;:^:_1 t_x),')'
-   t_c=. (4!:0 <'t_z'){noun,adv,conj,verb
+   t_c=. (nc__userlocale <'t_z'){noun,adv,conj,verb
   case. 8 do.
    t_c=. >1{t_b#,4 1{.y [ t_x=. >1{t_x
  end.
@@ -152,7 +152,7 @@ movet=: 3 : 0         NB. move from queue to stack for "trace"
  if. (name~:t_c)+.asgn=0 0{::stack do.
   stack=. ({:queue),stack
  else.
-  t_c=. (4!:0 <t_x){noun,adv,conj,verb
+  t_c=. (nc__userlocale <t_x){noun,adv,conj,verb
   if. t_c~:verb do. t_x=. 5!:5 <t_x end.
   stack=. (t_c;t_x),stack
  end.
@@ -165,7 +165,7 @@ movep=: 3 : 0         NB. move from queue to stack for "paren"
  if. (name~:t_c)+.asgn=0 0{::stack do.
   stack=. ({:queue),stack
  else.
-  t_c=. (4!:0 <t_x){noun,adv,conj,verb
+  t_c=. (nc__userlocale <t_x){noun,adv,conj,verb
   stack=. (t_c;t_x),stack
  end.
  (}:queue);<stack
