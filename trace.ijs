@@ -86,7 +86,7 @@ show=: 3 : 0
 )
 
 encall1=: '('"_ , ] , ' call_jtrace_"'"_ , ] , ')'"_
-encall =: encall1&.>^:(isname&> *. 3: = nc__userlocale)"0
+encall =: 3 : 'encall1&.>^:(isname&> *. 3: = nc__userlocale)"0 y'
                       NB. replace function names f in words y by (f call"f)
 
 NB. executes in userlocale
