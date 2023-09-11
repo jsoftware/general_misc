@@ -51,10 +51,11 @@ x=. x, ((edge+avn), verb,       verb, noun     ); 0 0 1 1; '1 Monad'
 x=. x, ((edge+avn), noun,       verb, noun     ); 0 1 1 1; '2 Dyad'
 x=. x, ((edge+avn), (verb+noun),adv,  any      ); 0 1 1 0; '3 Adverb'
 x=. x, ((edge+avn), (verb+noun),conj, verb+noun); 0 1 1 1; '4 Conj'
-x=. x, (edge,       cavn,       cavn, cavn     ); 0 1 1 1; '5 Trident'
-x=. x, (edge,       cavn,       cavn, any      ); 0 1 1 0; '6 Bident'
-x=. x, ((name+noun),asgn,       cavn, any      ); 1 1 1 0; '7 Is'
-x=. x, (lpar,       cavn,       rpar, any      ); 1 1 1 0; '8 Paren'
+x=. x, ((edge+avn), (verb+noun),verb, verb     ); 0 1 1 1; '5 Trident'
+x=. x, (edge,       cavn,       cavn, cavn     ); 0 1 1 1; '6 Trident'
+x=. x, (edge,       cavn,       cavn, any      ); 0 1 1 0; '7 Bident'
+x=. x, ((name+noun),asgn,       cavn, any      ); 1 1 1 0; '8 Is'
+x=. x, (lpar,       cavn,       rpar, any      ); 1 1 1 0; '9 Paren'
 
 PTpatterns=: >0{"1 x  NB. parse table - patterns
 PTsubj    =: >1{"1 x  NB. "subject to" masks
@@ -116,9 +117,9 @@ executet=: 4 : 0      NB. execute rule x for stack y for "trace"
  t_x=. t_b # , 4 _1{.y
  show 30{.(15$'-'),' ',(>x{PTactions),' ',15$'-'
  show&> t_x
- if. 7 =x do. t_x=. (<'=:') 1}t_x end.
+ if. 8 =x do. t_x=. (<'=:') 1}t_x end.
  if. 2>:x do. t_x=. (encall&.;:&.>_2{t_x) _2}t_x end.
- if. 6>:x do. t_x=. (<'( '),&.>t_x,&.><' )' end.
+ if. 7>:x do. t_x=. (<'( '),&.>t_x,&.><' )' end.
  do__userlocale 't_z=. ', ; t_x
  t_c=. (nc__userlocale <'t_z'){noun,adv,conj,verb
  if. noun=t_c do.
@@ -135,12 +136,12 @@ executep=: 4 : 0      NB. execute rule x for stack y for "paren"
  select. x
   case. 0;1;2;5 do.
    t_c=. noun [ t_x=. '(',(;:^:_1 t_x),')'
-  fcase. 7 do.
+  fcase. 8 do.
    t_x=. (<'=:') 1}t_x
-  case. 3;4;6 do.
+  case. 3;4;7 do.
    do__userlocale 't_z=. ',t_x=. '(',(;:^:_1 t_x),')'
    t_c=. (nc__userlocale <'t_z'){noun,adv,conj,verb
-  case. 8 do.
+  case. 9 do.
    t_c=. >1{t_b#,4 1{.y [ t_x=. >1{t_x
  end.
  ((t_b i. 1){.y),(t_c;t_x),(1+t_b i: 1)}.y  NB. new stack

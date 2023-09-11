@@ -24,7 +24,7 @@ test_bigfiles.ijs 	data=.bixread f;start0,start1[,len[,dirflag]]			indexed read
 fndef.ijs Using a more literate style
 )
 
-VERSION=: '2.5.8'
+VERSION=: '2.6.0'
 
 RELEASE=: 'j903'
 
